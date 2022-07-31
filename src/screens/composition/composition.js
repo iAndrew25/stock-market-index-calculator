@@ -1,68 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { ScrollView, Image, View, useWindowDimensions } from 'react-native';
 import { Avatar, Button, Appbar, Surface, Text, TextInput, List } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
-const companies = [{
-	symbol: 'SNN',
-	companyName: 'SNN dskjgbskjbgksd jbsdkj sdgsd  nskldnlk nsld ksndl sdi sdoh dg',
-	value: 925732
-}, {
-	symbol: 'TLV',
-	companyName: 'TLV dskjgbskjbgksd jbsdkj sdgsd  nskldnlk nsld ksndl sdi sdoh dg',
-	value: 925732
-}, {
-	symbol: 'SNP',
-	companyName: 'SNP',
-	value: 925732
-}, {
-	symbol: 'TSLA',
-	companyName: 'DIGI dskjgbskjbgksd jbsdkj sdgsd  nskldnlk nsld ksndl sdi sdoh dg',
-	value: 925732
-}, {
-	symbol: 'NASDAQ',
-	companyName: 'S dskjgbskjbgksd jbsdkj sdgsd  nskldnlk nsld ksndl sdi sdoh dg',
-	value: 925732
-}];
+import ScreenLayout from '../../components/screen-layout/screen-layout';
+import {getCompanies} from '../../services/get-companies';
+
+import {AppContext} from '../../config/store';
 
 function Composition({navigation, route}) {
-	const {indexName, ammount} = route.params;
+	const queryClient = useQueryClient();
+	const [{indexName, symbol, currency=''}] = useContext(AppContext);
+	const {data, isLoading} = useQuery(['companies', symbol], () => getCompanies(symbol));
+
+	const { ammount } = route.params;
 
 	return (
-		<ScrollView style={styles.wrapper}>
-			<Appbar.Header mode="center-aligned" style={styles.header}>
-				<Appbar.BackAction onPress={navigation.goBack} />
-			</Appbar.Header>
-			<Text style={styles.title} variant="headlineLarge">To invest {ammount} in {indexName}, you need to buy the following companies</Text>
+		<ScreenLayout
+			isLoading={isLoading}
+			title={`To invest ${currency}${ammount} in ${indexName}, you need to buy the following companies`}
+			appbarChildren={<Appbar.BackAction onPress={navigation.goBack} />}
+		>
 			<View style={styles.itemsWrapper}>
-				{companies.map(({symbol, companyName, value}) => (
+				{getAmmount({companies: data?.data, ammount}).map(({symbol, name, companyAmmount}) => (
 					<List.Item 
+						title={name}
 						key={symbol}
 						style={styles.item}
-						right={() => <View style={styles.ammountWrapper}><Text variant="titleMedium" style={styles.ammount}>{value}</Text></View>}
 						left={() => <View style={styles.symbolWrapper}><Text style={styles.symbol} variant="labelLarge">{symbol}</Text></View>}
-						title={companyName}
+						right={() => <View style={styles.ammountWrapper}><Text variant="titleMedium" style={styles.ammount}>{currency}{companyAmmount}</Text></View>}
 					/>
 				))}
 			</View>
-		</ScrollView>
+		</ScreenLayout>
 	);
 }
 
+const getAmmount = ({companies = [], ammount}) => companies.map(company => ({
+	...company,
+	companyAmmount: (ammount * (company.weight / 100)).toFixed(2)
+}));
+
 const styles = StyleSheet.create({
-	wrapper: {
-		backgroundColor: '#f7f7f7',
-		flex: 1
-	},
-	title: {
-		marginBottom: 24,
-		marginLeft: 24,
-		fontWeight: 'bold',
-		color: '#333333'
-	},
-	header: {
-		backgroundColor: '#f7f7f7'
-	},
 	ammountWrapper: {
 		paddingLeft: 8,
 		justifyContent: 'center'
