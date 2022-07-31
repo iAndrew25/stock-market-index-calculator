@@ -14,7 +14,7 @@ function Calculate({navigation, route}) {
 	const textInputColor = hasError ? '#ec5664' : "#66ce47";
 
 	const handleOnCalculate = () => {
-		if(ammount && !isNaN(ammount)) {
+		if(ammount && !isNaN(ammount) && parseInt(ammount) > 0) {
 			navigation.navigate('Composition', {ammount});
 		} else {
 			setHasError(true);

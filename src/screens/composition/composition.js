@@ -11,7 +11,7 @@ import {AppContext} from '../../config/store';
 
 function Composition({navigation, route}) {
 	const queryClient = useQueryClient();
-	const [{indexName, symbol, currency=''}] = useContext(AppContext);
+	const [{indexName, symbol, lastUpdated, currency=''}] = useContext(AppContext);
 	const {data, isLoading} = useQuery(['companies', symbol], () => getCompanies(symbol));
 
 	const { ammount } = route.params;
@@ -33,6 +33,7 @@ function Composition({navigation, route}) {
 					/>
 				))}
 			</View>
+			{Boolean(lastUpdated) && <Text variant="bodyMedium" style={styles.lastUpdated}>Last index update: {lastUpdated}</Text>}
 		</ScreenLayout>
 	);
 }
@@ -52,8 +53,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold'
 	},
 	itemsWrapper: {
-		marginHorizontal: 16,
-		paddingBottom: 32
+		marginHorizontal: 16
 	},
 	item: {
 		padding: 16,
@@ -74,6 +74,11 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		textAlign: 'center',
 		fontFamily: 'Roboto-Regular'
+	},
+	lastUpdated: {
+		color: '#333',
+		marginLeft: 24,
+		textAlign: 'center'
 	}
 });
 

@@ -6,7 +6,7 @@ import Loader from '../loader/loader';
 
 function ScreenLayout({title, isLoading, appbarChildren, children}) {
 	return (
-		<ScrollView style={styles.wrapper} keyboardShouldPersistTaps="handled">
+		<ScrollView style={styles.wrapper} contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
 			{isLoading && <Loader />}
 			<Appbar.Header mode="center-aligned" style={styles.header}>
 				{appbarChildren}
@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
 	wrapper: {
 		backgroundColor: '#f7f7f7',
 		flex: 1
+	},
+	container: {
+		paddingBottom: 32
 	},
 	title: {
 		marginBottom: 24,
