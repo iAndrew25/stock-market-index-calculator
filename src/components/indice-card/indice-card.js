@@ -5,7 +5,6 @@ import { Text } from 'react-native-paper';
 function IndiceCard({style, onPress, flag, country, indexName}) {
 	return (
 		<TouchableHighlight
-			key={country}
 			underlayColor="#dfdfdf"
 			style={StyleSheet.compose(styles.cardWrapper, style)}
 			onPress={onPress}

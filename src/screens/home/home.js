@@ -27,7 +27,7 @@ const indexes = [{
 	flag: require('../../assets/flags/us.png'),
 	isActive: false
 }];
-
+// + uk and france
 function Home({navigation}) {
 	const { width } = useWindowDimensions();
 	const [, setStore] = useContext(AppContext);
@@ -53,6 +53,7 @@ function Home({navigation}) {
 				{indexes.map(indice => (
 					<IndiceCard
 						{...indice}
+						key={indice.indexName}
 						onPress={handleOnCalculate(indice)}
 						style={{marginBottom: defaultMargin}}
 					/>
