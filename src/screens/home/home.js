@@ -26,8 +26,20 @@ const indexes = [{
 	symbol: 'DWJ',
 	flag: require('../../assets/flags/us.png'),
 	isActive: false
+}, {
+	country: 'fr',
+	indexName: 'Dow Jones Industrial Average Index',
+	symbol: 'DWJ',
+	flag: require('../../assets/flags/fr.png'),
+	isActive: false
+}, {
+	country: 'uk',
+	indexName: 'Dow Jones Industrial Average Index',
+	symbol: 'DWJ',
+	flag: require('../../assets/flags/uk.png'),
+	isActive: false
 }];
-// + uk and france
+
 function Home({navigation}) {
 	const { width } = useWindowDimensions();
 	const [, setStore] = useContext(AppContext);

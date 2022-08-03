@@ -14,22 +14,22 @@ function Composition({navigation, route}) {
 	const [{indexName, symbol, lastUpdated, currency=''}] = useContext(AppContext);
 	const {data, isLoading} = useQuery(['companies', symbol], () => getCompanies(symbol));
 
-	const { ammount } = route.params;
+	const { amount } = route.params;
 
 	return (
 		<ScreenLayout
 			isLoading={isLoading}
-			title={`To invest ${currency}${ammount} in ${indexName}, you need to buy the following companies`}
+			title={`To invest ${currency}${amount} in ${indexName}, you need to buy the following companies`}
 			appbarChildren={<Appbar.BackAction onPress={navigation.goBack} />}
 		>
 			<View style={styles.itemsWrapper}>
-				{getAmmount({companies: data?.data, ammount}).map(({symbol, name, companyAmmount}) => (
+				{getAmount({companies: data?.data, amount}).map(({symbol, name, companyAmount}) => (
 					<List.Item 
 						title={name}
 						key={symbol}
 						style={styles.item}
 						left={() => <View style={styles.symbolWrapper}><Text style={styles.symbol} variant="labelLarge">{symbol}</Text></View>}
-						right={() => <View style={styles.ammountWrapper}><Text variant="titleMedium" style={styles.ammount}>{currency}{companyAmmount}</Text></View>}
+						right={() => <View style={styles.amountWrapper}><Text variant="titleMedium" style={styles.amount}>{currency}{companyAmount}</Text></View>}
 					/>
 				))}
 			</View>
@@ -38,17 +38,17 @@ function Composition({navigation, route}) {
 	);
 }
 
-const getAmmount = ({companies = [], ammount}) => companies.map(company => ({
+const getAmount = ({companies = [], amount}) => companies.map(company => ({
 	...company,
-	companyAmmount: (ammount * (company.weight / 100)).toFixed(2)
+	companyAmount: (amount * (company.weight / 100)).toFixed(2)
 }));
 
 const styles = StyleSheet.create({
-	ammountWrapper: {
+	amountWrapper: {
 		paddingLeft: 8,
 		justifyContent: 'center'
 	},
-	ammount: {
+	amount: {
 		color: '#66ce47',
 		fontWeight: 'bold'
 	},

@@ -43,7 +43,7 @@ function Info({navigation, route}) {
 					it is often time consuming to always check the weight of each company when attempting to track the performance of the index by investing in <Text style={styles.bold}>individual companies</Text>.
 				</Text>
 				<Text variant="bodyLarge">
-					By entering the ammount you're willing to invest in a specific index, the app shows you <Text style={styles.bold}>how much of each company you should buy</Text>.
+					By entering the amount you're willing to invest in a specific index, the app shows you <Text style={styles.bold}>how much of each company you should buy</Text>.
 				</Text>
 			</View>
 			<TouchableOpacity onPress={handleOnPress} style={styles.footer}>

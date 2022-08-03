@@ -25,3 +25,6 @@ AppRegistry.registerComponent(appName, () => Main);
 
 // https://dribbble.com/shots/4028772-Freebies-Flat-Flags-227
 // Both "indexes" and "indices" are acceptable plural forms of the word "index"
+
+//https://www.slickcharts.com/dowjones
+//https://indexarb.com/indexComponentWtsDJ.html
