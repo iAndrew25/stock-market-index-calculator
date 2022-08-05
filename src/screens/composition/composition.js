@@ -11,25 +11,27 @@ import {AppContext} from '../../config/store';
 
 function Composition({navigation, route}) {
 	const queryClient = useQueryClient();
-	const [{indexName, symbol, lastUpdated, currency=''}] = useContext(AppContext);
+	const [{symbol, lastUpdated, currency='lei', currencyDirection='right'}] = useContext(AppContext);
 	const {data, isLoading} = useQuery(['companies', symbol], () => getCompanies(symbol));
-
-	const { amount } = route.params;
+	
+	const { budget } = route.params;
+	const setCurrency = parseCurrency({currency, currencyDirection});
+	const companies = getAmount({companies: data?.data, budget, currency, currencyDirection, setCurrency});
 
 	return (
 		<ScreenLayout
 			isLoading={isLoading}
-			title={`To invest ${currency}${amount} in ${indexName}, you need to buy the following companies`}
+			title={`To invest ${setCurrency(budget)} in ${symbol}, you need to buy the following companies`}
 			appbarChildren={<Appbar.BackAction onPress={navigation.goBack} />}
 		>
 			<View style={styles.itemsWrapper}>
-				{getAmount({companies: data?.data, amount}).map(({symbol, name, companyAmount}) => (
+				{companies.map(({symbol, name, companyAmount}) => (
 					<List.Item 
 						title={name}
 						key={symbol}
 						style={styles.item}
 						left={() => <View style={styles.symbolWrapper}><Text style={styles.symbol} variant="labelLarge">{symbol}</Text></View>}
-						right={() => <View style={styles.amountWrapper}><Text variant="titleMedium" style={styles.amount}>{currency}{companyAmount}</Text></View>}
+						right={() => <View style={styles.amountWrapper}><Text variant="titleMedium" style={styles.budget}>{companyAmount}</Text></View>}
 					/>
 				))}
 			</View>
@@ -38,9 +40,10 @@ function Composition({navigation, route}) {
 	);
 }
 
-const getAmount = ({companies = [], amount}) => companies.map(company => ({
+const parseCurrency = ({currency, currencyDirection}) => amount => currencyDirection === 'left' ? `${currency}${amount}` : `${amount}${currency}`;
+const getAmount = ({companies = [], budget, setCurrency}) => companies.map(company => ({
 	...company,
-	companyAmount: (amount * (company.weight / 100)).toFixed(2)
+	companyAmount: setCurrency((budget * (company.weight / 100)).toFixed(2))
 }));
 
 const styles = StyleSheet.create({
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 8,
 		justifyContent: 'center'
 	},
-	amount: {
+	budget: {
 		color: '#66ce47',
 		fontWeight: 'bold'
 	},

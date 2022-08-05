@@ -7,31 +7,31 @@ import ScreenLayout from '../../components/screen-layout/screen-layout';
 import {AppContext} from '../../config/store';
 
 function Calculate({navigation, route}) {
-	const [amount, setAmount] = useState('');
+	const [budget, setBudget] = useState('');
 	const [hasError, setHasError] = useState(false);
-	const [{indexName}] = useContext(AppContext);
+	const [{symbol}] = useContext(AppContext);
 
 	const textInputColor = hasError ? '#ec5664' : "#66ce47";
 
 	const handleOnCalculate = () => {
-		if(amount && !isNaN(amount) && parseInt(amount) > 0) {
-			navigation.navigate('Composition', {amount});
+		if(budget && !isNaN(budget) && parseInt(budget) > 0) {
+			navigation.navigate('Composition', {budget});
 		} else {
 			setHasError(true);
 		}
 	}
 
 	return (
-		<ScreenLayout title={`Enter the amount you want to invest in ${indexName}`} appbarChildren={<Appbar.BackAction onPress={navigation.goBack} />}>
+		<ScreenLayout title={`Enter the amount you want to invest in ${symbol}`} appbarChildren={<Appbar.BackAction onPress={navigation.goBack} />}>
 			<TextInput
 				autoFocus
-				style={styles.inputAmount}
+				style={styles.inputBudget}
 				mode="outlined"
 				outlineColor={textInputColor}
 				activeOutlineColor={textInputColor}
-				label="Amount to invest"
-				value={amount}
-				onChangeText={setAmount}
+				label="Your budget"
+				value={budget}
+				onChangeText={setBudget}
 			/>
 			{hasError && <Text variant="labelLarge" style={styles.errorMessage}>Please enter a number</Text>}
 			<Button style={styles.calculateButton} buttonColor="#66ce47" mode="contained" onPress={handleOnCalculate}>
@@ -42,7 +42,7 @@ function Calculate({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
-	inputAmount: {
+	inputBudget: {
 		marginHorizontal: 24
 	},
 	calculateButton: {

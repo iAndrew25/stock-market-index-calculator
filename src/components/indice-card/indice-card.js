@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Image, View, TouchableHighlight } from 'react-native';
 import { Text } from 'react-native-paper';
 
-function IndiceCard({style, onPress, flag, country, indexName}) {
+function IndiceCard({style, onPress, flag, country, symbol, name}) {
 	return (
 		<TouchableHighlight
 			underlayColor="#dfdfdf"
@@ -17,7 +17,8 @@ function IndiceCard({style, onPress, flag, country, indexName}) {
 						<Text variant="labelMedium" style={styles.countryName}>{country}</Text>
 					</View>
 					</View>
-					<Text variant="bodyLarge" style={styles.indexName}>{indexName}</Text>
+					<Text variant="labelLarge" style={styles.name}>{name}</Text>
+					<Text variant="bodyLarge" style={styles.symbol}>{symbol}</Text>
 				</View>
 			</>
 		</TouchableHighlight>
@@ -60,13 +61,21 @@ const styles = StyleSheet.create({
 		textTransform: 'uppercase',
 		fontFamily: 'Roboto-Regular'
 	},
-	indexName: {
+	symbol: {
 		textAlign:'center',
 		textTransform: 'uppercase',
 		fontFamily: 'Roboto-Regular',
-		marginTop: 16,
+		marginTop: 8,
 		color: '#333333',
 		letterSpacing: 1,
+		fontWeight:'bold'
+	},
+	name: {
+		textAlign:'center',
+		fontFamily: 'Roboto-Regular',
+		marginTop: 24,
+		color: '#333333',
+
 	}
 });
 

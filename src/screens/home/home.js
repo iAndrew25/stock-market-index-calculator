@@ -10,32 +10,32 @@ import {AppContext} from '../../config/store';
 
 const indexes = [{
 	country: 'ro',
-	indexName: 'BET Index',
+	name: 'Bucharest Exchange Trading',
 	flag: require('../../assets/flags/ro.png'),
 	symbol: 'BET',
 	isActive: true
 }, {
 	country: 'de',
-	indexName: 'DAX Index',
+	name: 'Deutscher Aktien Index',
 	flag: require('../../assets/flags/de.png'),
-	symbol: 'DAX',
+	symbol: 'DAX-40',
 	isActive: false
 }, {
 	country: 'us',
-	indexName: 'Dow Jones Industrial Average Index',
-	symbol: 'DWJ',
+	name: 'Dow Jones Industrial Average',
+	symbol: 'DJIA-30',
 	flag: require('../../assets/flags/us.png'),
 	isActive: false
 }, {
 	country: 'fr',
-	indexName: 'Dow Jones Industrial Average Index',
-	symbol: 'DWJ',
+	name: 'Cotation Assistée en Continu',
+	symbol: 'CAC-40',
 	flag: require('../../assets/flags/fr.png'),
 	isActive: false
 }, {
 	country: 'uk',
-	indexName: 'Dow Jones Industrial Average Index',
-	symbol: 'DWJ',
+	name: 'Financial Times Stock Exchange',
+	symbol: 'FTSE-100',
 	flag: require('../../assets/flags/uk.png'),
 	isActive: false
 }];
@@ -44,7 +44,7 @@ function Home({navigation}) {
 	const { width } = useWindowDimensions();
 	const [, setStore] = useContext(AppContext);
 
-	const defaultMargin = (width - (2 * (IMAGE_WIDTH + (16 * 2)))) / 3;
+	const marginBottom = (width - (2 * (IMAGE_WIDTH + (16 * 2)))) / 3;
 	const handleOnInfo = () => navigation.navigate('Info');
 	const handleOnCalculate = indice => () => {
 		setStore(indice);
@@ -62,12 +62,12 @@ function Home({navigation}) {
 			}
 		>
 			<View style={styles.indexes}>
-				{indexes.map(indice => (
+				{indexes.sort((a,b)=>a.country > b.country).map(indice => (
 					<IndiceCard
 						{...indice}
-						key={indice.indexName}
+						key={indice.name}
 						onPress={handleOnCalculate(indice)}
-						style={{marginBottom: defaultMargin}}
+						style={{marginBottom}}
 					/>
 				))}
 			</View>
@@ -75,8 +75,6 @@ function Home({navigation}) {
 	);
 }
 
-const COUNTRY_CIRCLE_SIZE = 40;
-const COUNTRY_CIRCLE_BORDER = 5;
 const IMAGE_WIDTH = 142;
 
 const styles = StyleSheet.create({
