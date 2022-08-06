@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
 		opacity: 0.9,
 		zIndex: 3,
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		alignContent: 'center'
 	}
 });
 

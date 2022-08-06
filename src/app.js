@@ -8,11 +8,14 @@ import Calculate from './screens/calculate/calculate';
 import Composition from './screens/composition/composition';
 
 const Stack = createNativeStackNavigator();
+const screenOptions = {
+	headerShown: false
+};
 
 function App() {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator screenOptions={{headerShown: false}}>
+			<Stack.Navigator screenOptions={screenOptions}>
 				<Stack.Screen name="Home" component={Home} />
 				<Stack.Screen name="Info" component={Info} />
 				<Stack.Screen name="Calculate" component={Calculate} />

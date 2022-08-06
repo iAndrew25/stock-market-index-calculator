@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Image, View, TouchableHighlight } from 'react-native';
 import { Text } from 'react-native-paper';
 
-function IndiceCard({style, onPress, flag, country, symbol, name}) {
+function MarketIndexCard({style, onPress, country, symbol, name}) {
 	return (
 		<TouchableHighlight
 			underlayColor="#dfdfdf"
@@ -10,7 +10,7 @@ function IndiceCard({style, onPress, flag, country, symbol, name}) {
 			onPress={onPress}
 		>
 			<>
-				<Image source={flag} />
+				<Image source={flags[country]} />
 				<View>
 					<View style={styles.countryCircleWrapper}>
 					<View style={styles.countryCircle}>
@@ -24,6 +24,14 @@ function IndiceCard({style, onPress, flag, country, symbol, name}) {
 		</TouchableHighlight>
 	);
 }
+
+const flags = {
+	ro: require('../../assets/flags/ro.png'),
+	uk: require('../../assets/flags/uk.png'),
+	de: require('../../assets/flags/de.png'),
+	us: require('../../assets/flags/us.png'),
+	fr: require('../../assets/flags/fr.png')
+};
 
 const COUNTRY_CIRCLE_SIZE = 40;
 const COUNTRY_CIRCLE_BORDER = 5;
@@ -79,4 +87,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default IndiceCard;
+export default MarketIndexCard;

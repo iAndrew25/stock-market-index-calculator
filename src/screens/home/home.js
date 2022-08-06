@@ -1,59 +1,33 @@
-import React, {useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet,ScrollView, Image, View, TouchableHighlight, useWindowDimensions } from 'react-native';
 import { Appbar, Surface, Text } from 'react-native-paper';
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 import ScreenLayout from '../../components/screen-layout/screen-layout';
-import IndiceCard from '../../components/indice-card/indice-card';
+import MarketIndexCard from '../../components/market-index-card/market-index-card';
 import Loader from '../../components/loader/loader';
 
 import {AppContext} from '../../config/store';
-
-const indexes = [{
-	country: 'ro',
-	name: 'Bucharest Exchange Trading',
-	flag: require('../../assets/flags/ro.png'),
-	symbol: 'BET',
-	isActive: true
-}, {
-	country: 'de',
-	name: 'Deutscher Aktien Index',
-	flag: require('../../assets/flags/de.png'),
-	symbol: 'DAX-40',
-	isActive: false
-}, {
-	country: 'us',
-	name: 'Dow Jones Industrial Average',
-	symbol: 'DJIA-30',
-	flag: require('../../assets/flags/us.png'),
-	isActive: false
-}, {
-	country: 'fr',
-	name: 'Cotation Assistée en Continu',
-	symbol: 'CAC-40',
-	flag: require('../../assets/flags/fr.png'),
-	isActive: false
-}, {
-	country: 'uk',
-	name: 'Financial Times Stock Exchange',
-	symbol: 'FTSE-100',
-	flag: require('../../assets/flags/uk.png'),
-	isActive: false
-}];
+import {getMarketIndexes} from '../../services';
 
 function Home({navigation}) {
+	const queryClient = useQueryClient();
 	const { width } = useWindowDimensions();
 	const [, setStore] = useContext(AppContext);
+	const [marketIndexes, setMarketIndexes] = useState([]);
+	const {data, isLoading} = useQuery(['marketIndexes'], getMarketIndexes);
 
 	const marginBottom = (width - (2 * (IMAGE_WIDTH + (16 * 2)))) / 3;
 	const handleOnInfo = () => navigation.navigate('Info');
-	const handleOnCalculate = indice => () => {
-		setStore(indice);
+	const handleOnCalculate = marketIndex => () => {
+		setStore(marketIndex);
 		navigation.navigate('Calculate');
 	}
 
 	return (
 		<ScreenLayout
 			title="Stock Market Index Calculator"
+			isLoading={isLoading}
 			appbarChildren={
 				<>
 					<Appbar.Content title="" />
@@ -61,12 +35,12 @@ function Home({navigation}) {
 				</>
 			}
 		>
-			<View style={styles.indexes}>
-				{indexes.sort((a,b)=>a.country > b.country).map(indice => (
-					<IndiceCard
-						{...indice}
-						key={indice.name}
-						onPress={handleOnCalculate(indice)}
+			<View style={styles.marketIndexes}>
+				{sortByCountry(data?.data).map(marketIndex => (
+					<MarketIndexCard
+						{...marketIndex}
+						key={marketIndex.name}
+						onPress={handleOnCalculate(marketIndex)}
 						style={{marginBottom}}
 					/>
 				))}
@@ -75,10 +49,12 @@ function Home({navigation}) {
 	);
 }
 
+const sortByCountry = (marketIndexes = []) => marketIndexes.sort((first, second) => first.country > second.country);
+
 const IMAGE_WIDTH = 142;
 
 const styles = StyleSheet.create({
-	indexes: {
+	marketIndexes: {
 		justifyContent: 'space-evenly',
 		flexDirection: 'row',
 		flexWrap: 'wrap'

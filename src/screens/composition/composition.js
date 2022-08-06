@@ -5,18 +5,18 @@ import { StyleSheet } from 'react-native';
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 import ScreenLayout from '../../components/screen-layout/screen-layout';
-import {getCompanies} from '../../services/get-companies';
+import {getCompanies} from '../../services';
 
 import {AppContext} from '../../config/store';
 
 function Composition({navigation, route}) {
 	const queryClient = useQueryClient();
-	const [{symbol, lastUpdated, currency='lei', currencyDirection='right'}] = useContext(AppContext);
+	const [{symbol, lastUpdated, currency, currencyPlacement}] = useContext(AppContext);
 	const {data, isLoading} = useQuery(['companies', symbol], () => getCompanies(symbol));
 	
 	const { budget } = route.params;
-	const setCurrency = parseCurrency({currency, currencyDirection});
-	const companies = getAmount({companies: data?.data, budget, currency, currencyDirection, setCurrency});
+	const setCurrency = parseCurrency({currency, currencyPlacement});
+	const companies = getAmount({companies: data?.data, budget, currency, currencyPlacement, setCurrency});
 
 	return (
 		<ScreenLayout
@@ -40,7 +40,7 @@ function Composition({navigation, route}) {
 	);
 }
 
-const parseCurrency = ({currency, currencyDirection}) => amount => currencyDirection === 'left' ? `${currency}${amount}` : `${amount}${currency}`;
+const parseCurrency = ({currency, currencyPlacement}) => amount => currencyPlacement === 'left' ? `${currency}${amount}` : `${amount}${currency}`;
 const getAmount = ({companies = [], budget, setCurrency}) => companies.map(company => ({
 	...company,
 	companyAmount: setCurrency((budget * (company.weight / 100)).toFixed(2))

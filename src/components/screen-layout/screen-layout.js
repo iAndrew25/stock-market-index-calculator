@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	container: {
-		paddingBottom: 32
+		paddingBottom: 32,
+		flexGrow: 1
 	},
 	title: {
 		marginBottom: 24,

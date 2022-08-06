@@ -1,3 +1,3 @@
-const API_URL = 'http://nativ.codes/apps/api';
+const API_URL = 'https://nativ.codes/apps/api';
 
 export {API_URL};

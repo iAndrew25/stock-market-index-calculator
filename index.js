@@ -24,6 +24,7 @@ export default function Main() {
 AppRegistry.registerComponent(appName, () => Main);
 
 // https://dribbble.com/shots/4028772-Freebies-Flat-Flags-227
+// https://cojdev.github.io/lowpoly/
 // Both "indexes" and "indices" are acceptable plural forms of the word "index"
 
 //https://www.slickcharts.com/dowjones

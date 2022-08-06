@@ -29,7 +29,7 @@ function Calculate({navigation, route}) {
 				mode="outlined"
 				outlineColor={textInputColor}
 				activeOutlineColor={textInputColor}
-				label="Your budget"
+				label="Amount"
 				value={budget}
 				onChangeText={setBudget}
 			/>
