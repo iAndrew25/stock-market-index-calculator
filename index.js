@@ -27,5 +27,11 @@ AppRegistry.registerComponent(appName, () => Main);
 // https://cojdev.github.io/lowpoly/
 // Both "indexes" and "indices" are acceptable plural forms of the word "index"
 
-//https://www.slickcharts.com/dowjones
+// DAX - https://en.wikipedia.org/wiki/DAX
+// DJIA - https://www.slickcharts.com/dowjones
+// BET - https://bvb.ro/FinancialInstruments/Indices/IndicesProfiles.aspx?i=BET
+
+
 //https://indexarb.com/indexComponentWtsDJ.html
+//https://www.marketscreener.com/quote/index/DAX-7395/components/
+//https://www.marketscreener.com/quote/index/CAC-40-4941/components/

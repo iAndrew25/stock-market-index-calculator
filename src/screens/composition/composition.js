@@ -44,7 +44,7 @@ const parseCurrency = ({currency, currencyPlacement}) => amount => currencyPlace
 const getAmount = ({companies = [], budget, setCurrency}) => companies.map(company => ({
 	...company,
 	companyAmount: setCurrency((budget * (company.weight / 100)).toFixed(2))
-}));
+})).sort((firstCompany,secondCompany)=>secondCompany.weight-firstCompany.weight);
 
 const styles = StyleSheet.create({
 	amountWrapper: {
