@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppRegistry } from 'react-native';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import App from './src/app';
@@ -12,7 +12,7 @@ const queryClient = new QueryClient();
 export default function Main() {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<PaperProvider>
+			<PaperProvider theme={DefaultTheme}>
 				<AppStore>
 					<App />
 				</AppStore>
