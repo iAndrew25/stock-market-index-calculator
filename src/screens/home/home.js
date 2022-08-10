@@ -2,6 +2,7 @@ import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet,ScrollView, Image, View, TouchableHighlight, useWindowDimensions } from 'react-native';
 import { Appbar, Surface, Text } from 'react-native-paper';
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import RNBootSplash from "react-native-bootsplash";
 
 import ScreenLayout from '../../components/screen-layout/screen-layout';
 import MarketIndexCard from '../../components/market-index-card/market-index-card';
@@ -23,6 +24,10 @@ function Home({navigation}) {
 		setStore(marketIndex);
 		navigation.navigate('Calculate');
 	}
+
+	useEffect(() => {
+		RNBootSplash.hide();
+	}, [])
 
 	return (
 		<ScreenLayout

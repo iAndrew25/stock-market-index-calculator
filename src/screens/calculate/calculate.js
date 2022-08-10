@@ -27,6 +27,7 @@ function Calculate({navigation, route}) {
 				autoFocus
 				style={styles.inputBudget}
 				mode="outlined"
+				keyboardType="numeric"
 				outlineColor={textInputColor}
 				activeOutlineColor={textInputColor}
 				label="Amount"
