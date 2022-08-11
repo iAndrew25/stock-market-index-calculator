@@ -1,7 +1,8 @@
 import React from 'react';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, StyleSheet } from 'react-native';
 import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import App from './src/app';
 import AppStore from './src/config/store';
@@ -9,19 +10,31 @@ import { name as appName } from './app.json';
 
 const queryClient = new QueryClient();
 
-export default function Main() {
+function Main() {
 	return (
-		<QueryClientProvider client={queryClient}>
-			<PaperProvider theme={DefaultTheme}>
-				<AppStore>
-					<App />
-				</AppStore>
-			</PaperProvider>
-		</QueryClientProvider>
+		<SafeAreaProvider>
+			<SafeAreaView style={styles.wrapper}>
+				<QueryClientProvider client={queryClient}>
+					<PaperProvider theme={DefaultTheme}>
+						<AppStore>
+							<App />
+						</AppStore>
+					</PaperProvider>
+				</QueryClientProvider>
+			</SafeAreaView>
+		</SafeAreaProvider>
 	);
 }
 
 AppRegistry.registerComponent(appName, () => Main);
+
+const styles = StyleSheet.create({
+	wrapper: {
+		flex: 1
+	}
+});
+
+export default Main;
 
 // https://dribbble.com/shots/4028772-Freebies-Flat-Flags-227
 // https://cojdev.github.io/lowpoly/
