@@ -30,7 +30,8 @@ AppRegistry.registerComponent(appName, () => Main);
 
 const styles = StyleSheet.create({
 	wrapper: {
-		flex: 1
+		flex: 1,
+		backgroundColor: '#f7f7f7'
 	}
 });
 
