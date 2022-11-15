@@ -25,9 +25,9 @@ function Home({navigation}) {
 		navigation.navigate('Calculate');
 	}
 
-	useEffect(() => {
-		RNBootSplash.hide();
-	}, [])
+	// useEffect(() => {
+	// 	RNBootSplash.hide();
+	// }, [])
 
 	return (
 		<ScreenLayout
@@ -41,6 +41,7 @@ function Home({navigation}) {
 			}
 		>
 			<View style={styles.marketIndexes}>
+				<Text onPress={() => navigation.navigate('IndexWizzard')}>click</Text>
 				{sortByCountry(data?.data).map(marketIndex => (
 					<MarketIndexCard
 						{...marketIndex}

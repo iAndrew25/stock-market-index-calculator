@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import ScreenLayout from '../../components/screen-layout/screen-layout';
 import {getCompanies} from '../../services';
 
+import {ListRow} from '../_dev-screen/dev-screen';
 import {AppContext} from '../../config/store';
 
 function Composition({navigation, route}) {
@@ -25,13 +26,12 @@ function Composition({navigation, route}) {
 			appbarChildren={<Appbar.BackAction onPress={navigation.goBack} />}
 		>
 			<View style={styles.itemsWrapper}>
-				{companies.map(({symbol, name, companyAmount}) => (
-					<List.Item 
-						title={name}
-						key={symbol}
-						style={styles.item}
-						left={() => <View style={styles.symbolWrapper}><Text style={styles.symbol} variant="labelLarge">{symbol}</Text></View>}
-						right={() => <View style={styles.amountWrapper}><Text variant="titleMedium" style={styles.budget}>{companyAmount}</Text></View>}
+				{companies.map(({symbol, name, weight, companyAmount}) => (
+					<ListRow
+						symbol={symbol}
+						name={name}
+						weight={weight}
+						value={companyAmount}
 					/>
 				))}
 			</View>

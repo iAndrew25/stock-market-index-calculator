@@ -38,6 +38,7 @@ export default Main;
 
 // https://dribbble.com/shots/4028772-Freebies-Flat-Flags-227
 // https://cojdev.github.io/lowpoly/
+// https://bgjar.com/simple-shiny
 // Both "indexes" and "indices" are acceptable plural forms of the word "index"
 
 // DAX - https://en.wikipedia.org/wiki/DAX
@@ -45,6 +46,8 @@ export default Main;
 // BET - https://bvb.ro/FinancialInstruments/Indices/IndicesProfiles.aspx?i=BET
 
 
+
 //https://indexarb.com/indexComponentWtsDJ.html
 //https://www.marketscreener.com/quote/index/DAX-7395/components/
 //https://www.marketscreener.com/quote/index/CAC-40-4941/components/
+//https://www.freemathhelp.com/forum/threads/recalculating-percentages-after-some-entries-are-removed.86383/
