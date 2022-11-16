@@ -3,8 +3,11 @@ import {StyleSheet,ScrollView, Image, View, TouchableHighlight, useWindowDimensi
 import { Appbar, Surface, Text } from 'react-native-paper';
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import RNBootSplash from "react-native-bootsplash";
+import { useSelector } from 'react-redux';
 
+import Flag from '../../components/flag/flag';
 import ScreenLayout from '../../components/screen-layout/screen-layout';
+import IndexCard from '../../components/index-card/index-card';
 import MarketIndexCard from '../../components/market-index-card/market-index-card';
 import Loader from '../../components/loader/loader';
 
@@ -17,6 +20,8 @@ function Home({navigation}) {
 	const [, setStore] = useContext(AppContext);
 	const [marketIndexes, setMarketIndexes] = useState([]);
 	const {data, isLoading} = useQuery(['marketIndexes'], getMarketIndexes);
+	const indexes = useSelector(({indexes}) => indexes.indexesList);
+	console.log("indexes", indexes);
 
 	const marginBottom = (width - (2 * (IMAGE_WIDTH + (16 * 2)))) / 3;
 	const handleOnInfo = () => navigation.navigate('Info');
@@ -40,21 +45,26 @@ function Home({navigation}) {
 				</>
 			}
 		>
+			<Text onPress={() => navigation.navigate('IndexWizzard')}>click</Text>
 			<View style={styles.marketIndexes}>
-				<Text onPress={() => navigation.navigate('IndexWizzard')}>click</Text>
-				{sortByCountry(data?.data).map(marketIndex => (
-					<MarketIndexCard
-						{...marketIndex}
-						key={marketIndex.name}
-						onPress={handleOnCalculate(marketIndex)}
-						style={{marginBottom}}
-					/>
-				))}
+				{indexes.map(item => {
+					return (
+						<IndexCard {...item} />
+					)
+				})}
 			</View>
 		</ScreenLayout>
 	);
 }
 
+				// {sortByCountry(data?.data).map(marketIndex => (
+				// 	<MarketIndexCard
+				// 		{...marketIndex}
+				// 		key={marketIndex.name}
+				// 		onPress={handleOnCalculate(marketIndex)}
+				// 		style={{marginBottom}}
+				// 	/>
+				// ))}
 const sortByCountry = (marketIndexes = []) => marketIndexes.sort((first, second) => first.country > second.country);
 
 const IMAGE_WIDTH = 142;

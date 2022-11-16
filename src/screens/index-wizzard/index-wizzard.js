@@ -18,15 +18,16 @@ const Tab = createBottomTabNavigator();
 
 function IndexWizzard() {
 	const [indexProps, setIndexProps] = useState({
-		indexId: '',
-		indexName: '',
-		indexColor: '',
-		isNewIndex: false,
+		id: '',
+		color: '',
+		symbol: '',
+		country: '',
 		companies: [],		
+		isNewIndex: false,
 		isTrackingAllCompanies: false
 	});
 
-	const onNext = ({prevTabName, isNewIndex, indexId, isTrackingAllCompanies, companies, indexName, indexColor}) => {
+	const onNext = ({prevTabName, isNewIndex, id, country, isTrackingAllCompanies, companies, symbol, color}) => {
 		switch(prevTabName) {
 			case 'IndexState': {
 				setIndexProps(prevIndexProps => ({
@@ -45,7 +46,9 @@ function IndexWizzard() {
 			case 'SelectIndex': {
 				setIndexProps(prevIndexProps => ({
 					...prevIndexProps,
-					indexId
+					id,
+					symbol,
+					country: id.split('_')[0]
 				}));
 
 				return {
@@ -73,7 +76,8 @@ function IndexWizzard() {
 			case 'CompaniesToInvest': {
 				setIndexProps(prevIndexProps => ({
 					...prevIndexProps,
-					companies
+					companies,
+					symbol
 				}));
 
 				return {
@@ -87,8 +91,8 @@ function IndexWizzard() {
 			case 'CreateIndex': {
 				setIndexProps(prevIndexProps => ({
 					...prevIndexProps,
-					indexName,
-					indexColor
+					symbol,
+					color
 				}));
 
 				return {

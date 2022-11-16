@@ -75,8 +75,7 @@ const styles = StyleSheet.create({
 		marginTop: 8
 	},
 	children: {
-		// alignItems: 'center',
-		marginTop: 16,
+		marginTop: 32,
 	},
 	footer: {
 		flexDirection: 'row',

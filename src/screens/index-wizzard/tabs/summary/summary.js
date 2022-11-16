@@ -1,13 +1,23 @@
 import React, { useContext} from 'react';
 import { Text } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 
 import TabLayout from '../../components/tab-layout/tab-layout';
 
 import {WizzardContext} from '../../wizzard-context';
 
 function Summary({navigation, route}) {
-	const {indexProps, onNext} = useContext(WizzardContext);
-	const handleOnFinish = () => navigation.navigate('Home');
+	const dispatch = useDispatch();
+	const {indexProps} = useContext(WizzardContext);
+
+	const handleOnFinish = () => {
+		dispatch({
+			type: 'INSERT_INDEX',
+			payload: indexProps
+		});
+
+		navigation.navigate('Home');
+	};
 
 	return (
 		<TabLayout

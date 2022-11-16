@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {FlatList, View} from 'react-native';
 
 function Selection({Element, options, selected, onChange, isMultiple}) {
 	const handleOnChange = option => {
@@ -22,7 +20,7 @@ function Selection({Element, options, selected, onChange, isMultiple}) {
 			key={option.id}
 			isMultiple={isMultiple}
 			isSelected={getIsSelected({isMultiple, selected, option})}
-			handleOnChange={() => handleOnChange(option)}
+			onPress={() => handleOnChange(option)}
 		/>
 	));
 };

@@ -1,31 +1,37 @@
 import React from 'react';
 import { StyleSheet, Image, View, TouchableHighlight } from 'react-native';
 import { Text } from 'react-native-paper';
+import Flag from '../flag/flag';
 
-function MarketIndexCard({style, onPress, country, symbol, name}) {
+function IndexCard({style, onPress, isSelected, country, color, symbol, name}) {
+	console.log("isSelected", isSelected);
 	return (
 		<TouchableHighlight
 			underlayColor="#dfdfdf"
-			style={StyleSheet.compose(styles.cardWrapper, style)}
+			style={StyleSheet.compose(styles.cardWrapper, isSelected && {borderColor: '#66ce47'})}
 			onPress={onPress}
 		>
 			<>
+				{Boolean(country) ? (
+					<View style={{
+						width: 142,
+						height: 96,
+						borderRadius: 16,
+						overflow: 'hidden'
+					}}>
+						<Image source={flags[country]} />
+					</View>
+				) : (
+					<Flag color={color} />
+				)}
 					
-				<View style={{
-					width: 142,
-					height: 96,
-					borderRadius: 16,
-					overflow: 'hidden'
-				}}>
-					<Image source={flags[country]} />
-				</View>
 				<View>
 					<View style={styles.countryCircleWrapper}>
 					<View style={styles.countryCircle}>
 						<Text variant="labelMedium" style={styles.countryName}>{symbol}</Text>
 					</View>
 					</View>
-					<Text variant="labelLarge" style={styles.name}>{name}</Text>
+					{Boolean(name) && false && <Text variant="labelLarge" style={styles.name}>{name}</Text>}
 				</View>
 			</>
 		</TouchableHighlight>
@@ -46,7 +52,10 @@ const IMAGE_WIDTH = 142;
 
 const styles = StyleSheet.create({
 	cardWrapper: {
+		borderWidth: 2,
+		borderColor: 'white',
 		padding: 16,
+		paddingBottom: 16 + COUNTRY_CIRCLE_SIZE/4,
 		borderRadius: 16,
 		backgroundColor: 'white',
 		width: IMAGE_WIDTH + (16 * 2)
@@ -65,7 +74,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#333333',
 		borderRadius: COUNTRY_CIRCLE_SIZE/2,
 		paddingHorizontal: 8,
-		// width: COUNTRY_CIRCLE_SIZE,
+		minWidth: COUNTRY_CIRCLE_SIZE,
 		height: COUNTRY_CIRCLE_SIZE,
 		borderColor: 'white',
 		borderWidth: COUNTRY_CIRCLE_BORDER	
@@ -95,4 +104,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default MarketIndexCard;
+export default IndexCard;

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+
 import { AppRegistry, StyleSheet } from 'react-native';
 import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -6,6 +8,8 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import App from './src/app';
 import AppStore from './src/config/store';
+import store from './src/config/store/app-store/app-store';
+
 import { name as appName } from './app.json';
 
 const queryClient = new QueryClient();
@@ -16,9 +20,11 @@ function Main() {
 			<SafeAreaView style={styles.wrapper}>
 				<QueryClientProvider client={queryClient}>
 					<PaperProvider theme={DefaultTheme}>
-						<AppStore>
-							<App />
-						</AppStore>
+						<Provider store={store}>
+							<AppStore>
+								<App />
+							</AppStore>
+						</Provider>
 					</PaperProvider>
 				</QueryClientProvider>
 			</SafeAreaView>

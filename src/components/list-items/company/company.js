@@ -9,9 +9,9 @@ function DevScreen({}) {
 	);
 }
 
-function Company({value, symbol, weight, name, isSelected, handleOnChange}) {
+function Company({value, symbol, weight, name, isSelected, onPress}) {
 	return (
-		<TouchableHighlight style={[styles.listRow, isSelected && styles.isSelected]} underlayColor="#e2e2e2" onPress={handleOnChange}>
+		<TouchableHighlight style={[styles.listRow, isSelected && styles.isSelected]} underlayColor="#e2e2e2" onPress={onPress}>
 			<>
 				<View style={styles.listRowFoot}>
 					<Text style={styles.listRowFootText}>{name}</Text>

@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import {View} from 'react-native';
 
 import BaseRow from '../../../../components/list-items/base-row/base-row';
 import Selection from '../../../../components/selection/selection';
@@ -35,12 +36,14 @@ function IndexState({navigation, route}) {
 			primaryText="Next"
 			secondaryText="Back"
 		>
-			<Selection
-				Element={BaseRow}
-				options={indexStateOptions}
-				selected={indexState}
-				onChange={setIndexState}
-			/>
+			<View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+				<Selection
+					Element={BaseRow}
+					options={indexStateOptions}
+					selected={indexState}
+					onChange={setIndexState}
+				/>
+			</View>
 		</TabLayout>
 	);
 }

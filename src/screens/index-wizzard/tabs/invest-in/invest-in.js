@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import {View} from 'react-native';
 
 import BaseRow from '../../../../components/list-items/base-row/base-row';
 import Selection from '../../../../components/selection/selection';
@@ -29,12 +30,14 @@ function InvestIn({navigation, route}) {
 			primaryText="Next"
 			secondaryText="Back"
 		>
-			<Selection
-				Element={BaseRow}
-				options={investInOptions}
-				selected={investIn}
-				onChange={setInvestIn}
-			/>
+			<View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
+				<Selection
+					Element={BaseRow}
+					options={investInOptions}
+					selected={investIn}
+					onChange={setInvestIn}
+				/>
+			</View>
 		</TabLayout>
 	);
 }

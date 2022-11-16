@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 	wrapper: {
 		width: 142,
 		height: 96,
-		borderRadius: 8,
+		borderRadius: 16,
 		overflow: 'hidden'
 	},
 	content: {
