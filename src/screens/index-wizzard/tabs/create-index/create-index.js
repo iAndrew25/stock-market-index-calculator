@@ -60,8 +60,7 @@ function CreateIndex({navigation, route}) {
 				))}
 			</View>
 			<Text>preview</Text>
-			<IndexCard color={color} symbol={symbol} />
-
+			<IndexCard color={color} label={symbol} />
 		</TabLayout>
 	);
 }

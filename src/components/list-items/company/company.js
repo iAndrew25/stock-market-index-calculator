@@ -1,15 +1,8 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {TouchableHighlight, Text, View, StyleSheet} from 'react-native';
 
-function DevScreen({}) {
-	return (
-		<View>
-			{[1,2,3,4].map(() => <ListRow />)}
-		</View>
-	);
-}
-
-function Company({value, symbol, weight, name, isSelected, onPress}) {
+function Company({value, symbol, weight, newWeight, name, isSelected, onPress}) {
+	// console.log("name", name);
 	return (
 		<TouchableHighlight style={[styles.listRow, isSelected && styles.isSelected]} underlayColor="#e2e2e2" onPress={onPress}>
 			<>
@@ -26,6 +19,10 @@ function Company({value, symbol, weight, name, isSelected, onPress}) {
 						<Text style={styles.listRowHeadItemLabel}>WEIGHT</Text>
 						<Text style={styles.listRowHeadItemValue}>{weight}%</Text>
 					</View>
+					{Boolean(newWeight) && <View style={styles.listRowHeadItem}>
+						<Text style={styles.listRowHeadItemLabel}>NEW WEIGHT</Text>
+						<Text style={StyleSheet.compose(styles.listRowHeadItemValue, styles.highlightText)}>{newWeight.toFixed(2)}%</Text>
+					</View>}
 				</View>
 			</>
 		</TouchableHighlight>
@@ -76,7 +73,10 @@ const styles = StyleSheet.create({
 		color: '#66ce47',
 		fontSize: 17,
 		marginTop: 8
+	},
+	highlightText: {
+		color: '#66ce47'
 	}
 })
 
-export default Company;
+export default memo(Company);

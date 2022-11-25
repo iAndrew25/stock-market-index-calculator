@@ -13,10 +13,9 @@ function Selection({Element, options, selected, onChange, isMultiple}) {
 		}
 	};
 
-	return options.map((option, index) => (
+	return options.map(option => (
 		<Element
 			{...option}
-			testID="Selection"
 			key={option.id}
 			isMultiple={isMultiple}
 			isSelected={getIsSelected({isMultiple, selected, option})}

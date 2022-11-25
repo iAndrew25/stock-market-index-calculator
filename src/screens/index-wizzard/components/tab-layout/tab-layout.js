@@ -40,7 +40,7 @@ function TabLayout({title, subtitle, progress, children, primaryText, onPrimaryP
 				<Button
 					buttonColor="#66ce47"
 					mode="contained"
-					textColor="#000"
+					textColor="#ffffff"
 					style={{marginHorizontal: 8}}
 					onPress={onPrimaryPress}
 				>

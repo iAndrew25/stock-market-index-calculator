@@ -10,17 +10,36 @@ import ScreenLayout from '../../components/screen-layout/screen-layout';
 import IndexCard from '../../components/index-card/index-card';
 import MarketIndexCard from '../../components/market-index-card/market-index-card';
 import Loader from '../../components/loader/loader';
+import Company from '../../components/list-items/company/company';
 
 import {AppContext} from '../../config/store';
-import {getMarketIndexes} from '../../services';
+import {getCompanies, getMarketIndexes} from '../../services';
 
-function Home({navigation}) {
-	const queryClient = useQueryClient();
+const parseCompanies = (userCompanies, indexCompanies = []) => {
+	return indexCompanies.reduce((parsedCompanies, indexCompany) => {
+		const commonCompany = userCompanies.find(userCompany => userCompany.id === indexCompany.id);
+
+		if(commonCompany) {
+			return [...parsedCompanies, {...commonCompany, ...indexCompany}];
+		} else {
+			return parsedCompanies;
+		}
+	}, []);
+}
+
+function IndexHome({navigation, route}) {
+	const {indexProps} = route.params;
 	const { width } = useWindowDimensions();
 	const [, setStore] = useContext(AppContext);
 	const [marketIndexes, setMarketIndexes] = useState([]);
-	const {data, isLoading} = useQuery(['marketIndexes'], getMarketIndexes);
-	const indexes = useSelector(({indexes}) => indexes.indexesList);
+	const indexData = useSelector(({indexes}) => indexes.indexesList.find(({id}) => id === indexProps.id));
+	const {data, error, isLoading, fetchStatus} = useQuery({
+		queryKey: [`companies-${indexProps.symbol}`, indexProps.symbol],
+		queryFn: () => getCompanies(indexProps.symbol),
+		enabled: !indexData.isNewIndex
+	});
+
+	const parsedCompanies = indexData.isNewIndex ? indexData.companies : parseCompanies(indexData.companies, data?.data);
 
 	const marginBottom = (width - (2 * (IMAGE_WIDTH + (16 * 2)))) / 3;
 	const handleOnInfo = () => navigation.navigate('Info');
@@ -29,31 +48,34 @@ function Home({navigation}) {
 		navigation.navigate('Calculate');
 	}
 
-	useEffect(() => {
-		RNBootSplash.hide();
-	}, [])
-
 	return (
 		<Fragment>
 			<ScreenLayout
-				title="Stock Market Index Tracker"
-				isLoading={isLoading}
+				//title="Stock Market Index Tracker"
+				isLoading={isLoading && fetchStatus !== "idle"}
 				appbarChildren={
 					<>
+						<Appbar.BackAction onPress={navigation.goBack} />
 						<Appbar.Content title="" />
 						<Appbar.Action icon="information-outline" iconColor="#333333" onPress={handleOnInfo} />
 					</>
 				}
 			>
-				<View style={styles.marketIndexes}>
-					{indexes.map(indexProps => (<IndexCard key={indexProps.id} {...indexProps} onPress={() => navigation.navigate('IndexHome', {indexProps})}/>))}
+				<View style={{marginHorizontal: 16, backgroundColor: 'white', alignItems: 'center', borderRadius: 16}}>
+					<IndexCard {...indexProps} />
+					<View style={{flexDirection: 'row', marginTop: 8, paddingBottom: 16}}>
+						<Button textColor="black" mode="text" onPress={console.log}>
+							Update
+						</Button>
+						<Button style={{marginLeft: 8}} buttonColor="#66ce47" mode="contained" onPress={console.log}>
+							Invest
+						</Button>
+					</View>
+				</View>
+				<View style={{marginTop: 16, flexDirection:'column'}}>
+					{parsedCompanies.map(item => (<Company key={item.id} {...item} />))}
 				</View>
 			</ScreenLayout>
-			<View style={styles.createIndex}>				
-				<Button  buttonColor="#66ce47" mode="contained" onPress={() => navigation.navigate('IndexWizzard')}>
-					Track new index
-				</Button>
-			</View>
 		</Fragment>
 	);
 }
@@ -86,4 +108,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default Home;
+export default IndexHome;

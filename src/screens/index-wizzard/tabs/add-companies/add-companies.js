@@ -17,13 +17,14 @@ function AddCompanies({navigation, route}) {
 	const showBottomSheet = () => setIsBottomSheetVisible(true);
 	const hideBottomSheet = () => setIsBottomSheetVisible(false);
 
-	const {onNext} = useContext(WizzardContext);
+	const {indexProps, onNext} = useContext(WizzardContext);
 
 	const textInputColor = false ? '#ec5664' : "#66ce47";
 
 	const handleOnNext = () => {
 		const {tabName, params} = onNext({
 			prevTabName: 'AddCompanies',
+			label: `${indexProps.symbol}(${companies.length})`,
 			companies
 		});
 

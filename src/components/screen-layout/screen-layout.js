@@ -11,7 +11,7 @@ function ScreenLayout({title, isLoading, appbarChildren, children}) {
 			<Appbar.Header mode="center-aligned" style={styles.header}>
 				{appbarChildren}
 			</Appbar.Header>
-			<Text style={styles.title} variant="headlineLarge">{title}</Text>
+			{Boolean(title) && <Text style={styles.title} variant="headlineLarge">{title}</Text>}
 			{children}
 		</ScrollView>
 	);

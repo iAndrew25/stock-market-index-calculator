@@ -3,8 +3,7 @@ import { StyleSheet, Image, View, TouchableHighlight } from 'react-native';
 import { Text } from 'react-native-paper';
 import Flag from '../flag/flag';
 
-function IndexCard({style, onPress, isSelected, country, color, symbol, name}) {
-	console.log("isSelected", isSelected);
+function IndexCard({style, onPress, isSelected, country, color, label, symbol, name}) {
 	return (
 		<TouchableHighlight
 			underlayColor="#dfdfdf"
@@ -28,7 +27,7 @@ function IndexCard({style, onPress, isSelected, country, color, symbol, name}) {
 				<View>
 					<View style={styles.countryCircleWrapper}>
 					<View style={styles.countryCircle}>
-						<Text variant="labelMedium" style={styles.countryName}>{symbol}</Text>
+						<Text variant="labelMedium" style={styles.countryName}>{label || symbol}</Text>
 					</View>
 					</View>
 					{Boolean(name) && false && <Text variant="labelLarge" style={styles.name}>{name}</Text>}

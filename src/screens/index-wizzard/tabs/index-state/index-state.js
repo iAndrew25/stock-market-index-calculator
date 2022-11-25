@@ -18,6 +18,7 @@ const indexStateOptions = [{
 function IndexState({navigation, route}) {
 	const [indexState, setIndexState] = useState(indexStateOptions[0]);
 	const {onNext} = useContext(WizzardContext);
+	
 	const handleOnNext = () => {
 		const {tabName, params} = onNext({
 			prevTabName: 'IndexState',

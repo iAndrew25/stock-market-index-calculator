@@ -11,11 +11,13 @@ const investInOptions = [{id: options.ALL, text: options.ALL}, {id: options.SOME
 
 function InvestIn({navigation, route}) {
 	const [investIn, setInvestIn] = useState(investInOptions[0]);
-	const {onNext} = useContext(WizzardContext);
+	const {indexProps: {symbol}, onNext} = useContext(WizzardContext);
+
 	const handleOnNext = () => {
 		const {tabName, params} = onNext({
 			prevTabName: 'InvestIn',
-			isTrackingAllCompanies: investIn.id === options.ALL
+			isTrackingAllCompanies: investIn.id === options.ALL,
+			label: symbol
 		});
 
 		navigation.navigate(tabName, params);

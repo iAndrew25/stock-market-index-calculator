@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RNBootSplash from "react-native-bootsplash";
 
 import Home from './screens/home/home';
+import IndexHome from './screens/index-home/index-home';
 import Info from './screens/info/info';
 import Calculate from './screens/calculate/calculate';
 import Composition from './screens/composition/composition';
@@ -17,16 +18,11 @@ const screenOptions = {
 };
 
 function App() {
-	// return <DevScreen />
-
-	useEffect(() => {
-		RNBootSplash.hide();
-	}, [])
-
 	return (
 		<NavigationContainer>
 			<Stack.Navigator screenOptions={screenOptions}>
 				<Stack.Screen name="Home" component={Home} />
+				<Stack.Screen name="IndexHome" component={IndexHome} />
 				<Stack.Screen name="Info" component={Info} />
 				<Stack.Screen name="Calculate" component={Calculate} />
 				<Stack.Screen name="Composition" component={Composition} />

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useMemo} from 'react';
 import { useQuery } from '@tanstack/react-query'
 
 import Company from '../../../../components/list-items/company/company';
@@ -7,17 +7,41 @@ import TabLayout from '../../components/tab-layout/tab-layout';
 import {getCompanies} from '../../../../services';
 
 import {WizzardContext} from '../../wizzard-context';
+import {listToObject} from '../../../../utils/helpers';
+
+const adjustCompaniesWeight = (companies, company) => {
+	const updatedCompanies = companies.map(({newWeight, ...currentCompany}) => {
+		if (currentCompany.id === company.id) {
+			const isSelected = !Boolean(currentCompany.isSelected);
+			return {
+				...currentCompany,
+				isSelected,
+				...(isSelected && newWeight)
+			}
+		} else {
+			return currentCompany;	
+		};
+	});
+	
+	const totalWeightLeft = updatedCompanies.filter(({isSelected}) => Boolean(isSelected)).reduce((total, item) => total + Number(item.weight), 0);
+
+	return updatedCompanies.map(item => item.isSelected ? ({...item, newWeight: (item.weight / totalWeightLeft) * 100}) : item);
+}
 
 function CompaniesToInvest({navigation, route}) {
 	const {indexProps: {symbol}, onNext} = useContext(WizzardContext);
-	const {data, isLoading} = useQuery([`companies-${symbol}`, symbol], () => getCompanies(symbol));
 	const [companies, setCompanies] = useState([]);
+	const {data, isLoading} = useQuery([`companies-${symbol}`, symbol], async () => setCompanies((await getCompanies(symbol))?.data));
+
+	const handleOnPress = company => () => setCompanies(prevCompanies => adjustCompaniesWeight(prevCompanies, company));
 
 	const handleOnNext = () => {
+		const selectedCompanies = companies.filter(({isSelected}) => Boolean(isSelected)).map(({isSelected, ...rest}) => rest);
+
 		const {tabName, params} = onNext({
+			companies: selectedCompanies,
 			prevTabName: 'CompaniesToInvest',
-			companies,
-			symbol: `${symbol}(${companies.length})`
+			label: `${symbol}(${selectedCompanies.length})`
 		});
 
 		navigation.navigate(tabName, params);
@@ -33,13 +57,13 @@ function CompaniesToInvest({navigation, route}) {
 			primaryText="Next"
 			secondaryText="Back"
 		>
-			{Boolean(data?.data?.length) && <Selection
-				Element={Company}
-				options={data.data}
-				selected={companies}
-				onChange={setCompanies}
-				isMultiple
-			/>}
+			{Boolean(companies?.length) && companies.map(company => (
+				<Company 
+					{...company}
+					key={company.id}
+					onPress={handleOnPress(company)}
+				/>
+			))}
 		</TabLayout>
 	);
 }
