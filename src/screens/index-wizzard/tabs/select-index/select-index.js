@@ -18,13 +18,13 @@ function SelectIndex({navigation, route}) {
 	const indexesList = sortByCountry(data?.data);
 
 	const [selectedIndex, setSelectedIndex] = useState(indexesList[0]);
+	console.log("selectedIndex", selectedIndex);
 	const {onNext} = useContext(WizzardContext);
 
 	const handleOnNext = () => {
 		const {tabName, params} = onNext({
 			prevTabName: 'SelectIndex',
-			id: selectedIndex.id,
-			symbol: selectedIndex.symbol
+			...selectedIndex
 		});
 
 		navigation.navigate(tabName, params);

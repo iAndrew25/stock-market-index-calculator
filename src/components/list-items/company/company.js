@@ -1,14 +1,18 @@
-import React, {memo} from 'react';
+import React, {Fragment, memo} from 'react';
 import {TouchableHighlight, Text, View, StyleSheet} from 'react-native';
 
-function Company({value, symbol, weight, newWeight, name, isSelected, onPress}) {
-	// console.log("name", name);
+function Company({value, highlightedValue, symbol, weight, newWeight, name, isSelected, onPress}) {
 	return (
 		<TouchableHighlight style={[styles.listRow, isSelected && styles.isSelected]} underlayColor="#e2e2e2" onPress={onPress}>
 			<>
 				<View style={styles.listRowFoot}>
 					<Text style={styles.listRowFootText}>{name}</Text>
-					{Boolean(value) && <Text style={styles.listRowFootValue}>{value}</Text>}
+					{Boolean(highlightedValue || value) && (
+						<View style={{flexDirection: 'row'}}>
+							{Boolean(value) && (<Text style={styles.listRowFootValue}>{value}</Text>)}
+							{Boolean(highlightedValue) && <Text style={StyleSheet.compose(styles.listRowFootValue, styles.listRowFootValueHighlighted)}>{highlightedValue}</Text>}
+						</View>
+					)}
 				</View>
 				<View style={styles.listRowHead}>
 					<View style={styles.listRowHeadItem}>
@@ -70,9 +74,11 @@ const styles = StyleSheet.create({
 	},
 	listRowFootValue: {
 		fontWeight: 'bold',
-		color: '#66ce47',
 		fontSize: 17,
 		marginTop: 8
+	},
+	listRowFootValueHighlighted: {
+		color: '#66ce47'
 	},
 	highlightText: {
 		color: '#66ce47'

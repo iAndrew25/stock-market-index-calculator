@@ -6,6 +6,9 @@ import RNBootSplash from "react-native-bootsplash";
 import Home from './screens/home/home';
 import IndexHome from './screens/index-home/index-home';
 import Info from './screens/info/info';
+import Invest from './screens/invest/invest';
+import InvestResults from './screens/invest-results/invest-results';
+import InvestUpdate from './screens/invest-update/invest-update';
 import Calculate from './screens/calculate/calculate';
 import Composition from './screens/composition/composition';
 import DevScreen from './screens/_dev-screen/dev-screen';
@@ -24,6 +27,9 @@ function App() {
 				<Stack.Screen name="Home" component={Home} />
 				<Stack.Screen name="IndexHome" component={IndexHome} />
 				<Stack.Screen name="Info" component={Info} />
+				<Stack.Screen name="Invest" component={Invest} />
+				<Stack.Screen name="InvestResults" component={InvestResults} />
+				<Stack.Screen name="InvestUpdate" component={InvestUpdate} />
 				<Stack.Screen name="Calculate" component={Calculate} />
 				<Stack.Screen name="Composition" component={Composition} />
 				<Stack.Screen name="IndexWizzard" component={IndexWizzard} />

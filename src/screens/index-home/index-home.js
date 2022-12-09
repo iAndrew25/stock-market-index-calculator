@@ -43,9 +43,15 @@ function IndexHome({navigation, route}) {
 
 	const marginBottom = (width - (2 * (IMAGE_WIDTH + (16 * 2)))) / 3;
 	const handleOnInfo = () => navigation.navigate('Info');
+	const handleOnInvest = () => {
+		navigation.navigate('Invest', {companies: parsedCompanies, indexData});
+	}
 	const handleOnCalculate = marketIndex => () => {
 		setStore(marketIndex);
 		navigation.navigate('Calculate');
+	}
+	const handleOnUpdate = () => {
+		navigation.navigate('InvestUpdate', {companies: parsedCompanies, indexData});
 	}
 
 	return (
@@ -64,10 +70,10 @@ function IndexHome({navigation, route}) {
 				<View style={{marginHorizontal: 16, backgroundColor: 'white', alignItems: 'center', borderRadius: 16}}>
 					<IndexCard {...indexProps} />
 					<View style={{flexDirection: 'row', marginTop: 8, paddingBottom: 16}}>
-						<Button textColor="black" mode="text" onPress={console.log}>
+						<Button textColor="black" mode="text" onPress={handleOnUpdate}>
 							Update
 						</Button>
-						<Button style={{marginLeft: 8}} buttonColor="#66ce47" mode="contained" onPress={console.log}>
+						<Button style={{marginLeft: 8}} buttonColor="#66ce47" mode="contained" onPress={handleOnInvest}>
 							Invest
 						</Button>
 					</View>

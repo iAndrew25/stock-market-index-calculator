@@ -12,6 +12,7 @@ import {WizzardContext} from '../../wizzard-context';
 
 function AddCompanies({navigation, route}) {
 	const [companies, setCompanies] = useState([]);
+	console.log("companies", companies);
 	const [usedWeight, setUsedWeight] = useState(0);
 
 	const showBottomSheet = () => setIsBottomSheetVisible(true);
@@ -65,7 +66,7 @@ function AddCompanies({navigation, route}) {
 				symbol={symbol}
 				weight={weight}
 				name={name}
-				handleOnChange={handleOnAdd({name, symbol, weight})}
+				onPress={handleOnAdd({name, symbol, weight})}
 			/>)}
 		</TabLayout>
 	);

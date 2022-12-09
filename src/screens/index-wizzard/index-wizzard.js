@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { v4 as uuidV4 } from 'uuid';
 
 import {noop} from '../../utils/helpers';
 
@@ -18,17 +19,19 @@ const Tab = createBottomTabNavigator();
 
 function IndexWizzard() {
 	const [indexProps, setIndexProps] = useState({
-		id: '',
+		id: uuidV4(),
 		label: '',
 		color: '',
 		symbol: '',
 		country: '',
+		currency: '',
 		companies: [],
 		isNewIndex: false,
+		currencyPlacement: '',
 		isTrackingAllCompanies: false
 	});
 
-	const onNext = ({prevTabName, isNewIndex, label, id, country, isTrackingAllCompanies, companies, symbol, color}) => {
+	const onNext = ({prevTabName, isNewIndex, label, id, country, isTrackingAllCompanies, companies, symbol, currency, currencyPlacement, color}) => {
 		switch(prevTabName) {
 			case 'IndexState': {
 				setIndexProps(prevIndexProps => ({
@@ -47,8 +50,9 @@ function IndexWizzard() {
 			case 'SelectIndex': {
 				setIndexProps(prevIndexProps => ({
 					...prevIndexProps,
-					id,
 					symbol,
+					currency,
+					currencyPlacement,
 					country: id.split('_')[0]
 				}));
 
@@ -95,7 +99,9 @@ function IndexWizzard() {
 					...prevIndexProps,
 					label: symbol,
 					symbol,
-					color
+					color,
+					currency,
+					currencyPlacement
 				}));
 
 				return {

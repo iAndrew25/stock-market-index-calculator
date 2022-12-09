@@ -1,45 +1,35 @@
-import React, {Fragment, useContext, useState, useRef} from 'react';
+import React, {Fragment, useContext, useState, useRef, useReducer} from 'react';
 import {StyleSheet, Pressable, View} from 'react-native';
 import { Button, Appbar, Text, TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RangeSlider from 'rn-range-slider';
+import { v4 as uuidV4 } from 'uuid';
 
 import Company from '../../components/list-items/company/company';
 import BottomSheet from '../../components/bottom-sheet/bottom-sheet';
 
-const defaultCompany = {
-	name: '',
-	symbol: '',
-	weight: 0
-};
+import {companyReducer, defaultCompany} from './manage-company.reducer';
+import {getSliderMax} from './manage-company.utils';
 
-const getSliderMax = (usedWeight, weight, isEditMode) => {
-	if(isEditMode) {
-		return 100 - (usedWeight - weight);
-	} else {
-		if(usedWeight === 100) {
-			return weight;
-		} else {
-			return 100 - usedWeight;
-		}
-	}
-}
-
-// TODO: reducer
 function ManageCompany({navigation, route}) {
-	const [company, setCompany] = useState(route.params?.company || defaultCompany);
+	const [company, dispatch] = useReducer(companyReducer, route.params?.company || defaultCompany);
 	const isEditMode = Boolean(route.params?.company)
 
 	const textInputColor = false ? '#ec5664' : "#66ce47";
-	const sliderMax = useRef(getSliderMax(route.params?.usedWeight || 0, company.weight, isEditMode)).current;
+	const sliderMax = useRef(getSliderMax(route.params?.usedWeight || 0, company?.weight, isEditMode)).current;
+
+	const actionDispatcher = type => payload => dispatch({type, payload});
 
 	const handleOnAdd = () => {
 		navigation.navigate('IndexWizzard', {
 			screen: 'AddCompanies',
 			params: {
+				isEditMode,
 				progress: 0.75,
-				company,
-				isEditMode
+				company: {
+					...company,
+					id: uuidV4()
+				}
 			},
 		})
 	}
@@ -53,7 +43,7 @@ function ManageCompany({navigation, route}) {
 				activeOutlineColor={textInputColor}
 				label="Company name"
 				value={company.name}
-				onChangeText={name => setCompany(prevCompany => ({...prevCompany, name}))}
+				onChangeText={actionDispatcher('UPDATE_NAME')}
 			/>
 			<TextInput
 				style={styles.inputBudget}
@@ -62,7 +52,7 @@ function ManageCompany({navigation, route}) {
 				activeOutlineColor={textInputColor}
 				label="Company symbol"
 				value={company.symbol}
-				onChangeText={symbol => setCompany(prevCompany => ({...prevCompany, symbol}))}
+				onChangeText={actionDispatcher('UPDATE_SYMBOL')}
 			/>
 			<TextInput
 				style={styles.inputBudget}
@@ -71,7 +61,7 @@ function ManageCompany({navigation, route}) {
 				activeOutlineColor={textInputColor}
 				label="Weight"
 				value={company.weight.toString()}
-				onChangeText={weight => setCompany(prevCompany => ({...prevCompany, weight}))}
+				onChangeText={actionDispatcher('UPDATE_WEIGHT')}
 			/>
 			<View style={{flexDirection: 'row', justifyContent: 'center'}}>
 				<RangeSlider
@@ -88,7 +78,7 @@ function ManageCompany({navigation, route}) {
 					renderRailSelected={() => <View style={{flex: 1, height: 8, backgroundColor: 'blue', borderRadius: 8}} />}
 					renderLabel={no => <Text>{no}</Text>}
 					// renderNotch={renderNotch}
-					onSliderTouchEnd={weight => setCompany(prevCompany => ({...prevCompany, weight}))}
+					onSliderTouchEnd={actionDispatcher('UPDATE_WEIGHT')}
 				/>
 			</View>
 			<Button style={{marginHorizontal: 16, marginTop: 16}} buttonColor="#66ce47" mode="contained" onPress={handleOnAdd}>

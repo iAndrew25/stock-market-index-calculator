@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {StyleSheet, Pressable, View} from 'react-native';
-import { Button, Appbar, Text, TextInput } from 'react-native-paper';
+import { Button, Appbar, Text, TextInput, Chip  } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Flag from '../../../../components/flag/flag';
@@ -10,9 +10,14 @@ import {WizzardContext} from '../../wizzard-context';
 
 const backgrounds = ['#40b8ff', '#addc11', '#66ce47', '#d536a7', '#83d1ff', '#987bf4', '#553da5', '#1a242c'];
 
+const currencies = ['EUR', 'USD', 'RON', 'NONE'];
+const currencyPlacements = ['right', 'left'];
+
 function CreateIndex({navigation, route}) {
 	const [symbol, setSymbol] = useState('');
 	const [color, setColor] = useState(backgrounds[0]);
+	const [currency, setCurrency] = useState(currencies[0]);
+	const [currencyPlacement, setCurrencyPlacement] = useState(currencyPlacements[0]);
 	const {onNext} = useContext(WizzardContext);
 
 	const textInputColor = false ? '#ec5664' : "#66ce47";
@@ -21,7 +26,9 @@ function CreateIndex({navigation, route}) {
 		const {tabName, params} = onNext({
 			prevTabName: 'CreateIndex',
 			symbol,
-			color
+			color,
+			currency,
+			currencyPlacement
 		});
 
 		navigation.navigate(tabName, params);
@@ -47,6 +54,34 @@ function CreateIndex({navigation, route}) {
 				value={symbol}
 				onChangeText={setSymbol}
 			/>
+			<Text>Currency</Text>
+			<View style={{flexDirection: 'row', justifyContent: 'center'}}>
+				{currencies.map(currentCurrency => 
+					<Chip
+						style={{marginHorizontal: 4}}
+						selectedColor="#66ce47"
+						textStyle={{color: 'black'}}
+						mode="outlined"
+						selected={currentCurrency === currency}
+						onPress={() => setCurrency(currentCurrency)}>
+						{currentCurrency}
+					</Chip>
+				)}
+			</View>
+			<Text>Currency Placement</Text>
+			<View style={{flexDirection: 'row', justifyContent: 'center'}}>
+				{currencyPlacements.map(currentCurrencyPlacement => 
+					<Chip
+						style={{marginHorizontal: 4}}
+						selectedColor="#66ce47"
+						textStyle={{color: 'black'}}
+						mode="outlined"
+						selected={currentCurrencyPlacement === currencyPlacement}
+						onPress={() => setCurrencyPlacement(currentCurrencyPlacement)}>
+						{currentCurrencyPlacement}
+					</Chip>
+				)}
+			</View>
 			<Text>Pick a color to distinguish your index</Text>
 			<View style={{flexDirection: 'row', justifyContent: 'center'}}>
 				{backgrounds.map(backgroundColor => (

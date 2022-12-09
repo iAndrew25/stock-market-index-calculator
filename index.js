@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import 'react-native-get-random-values';
 
 import { AppRegistry, StyleSheet } from 'react-native';
 import { Provider as PaperProvider, MD3LightTheme as DefaultTheme } from 'react-native-paper';
